@@ -14,7 +14,21 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: "USER_EMAIL environment variable is not set." }, { status: 500 });
   }
 
-  const resendApiKey = process.env.RESEND_API_KEY || "re_Wr5nwxjs_FBXQhPZxvZjcJp7hecQRaxUe";
+  // Enforce July 1, 2026 start date
+  const now = new Date();
+  const startDate = new Date('2026-07-01T00:00:00Z');
+  
+  if (now < startDate) {
+    return NextResponse.json({ 
+      success: true, 
+      message: "Skipped: Reminders are scheduled to start on July 1, 2026." 
+    });
+  }
+
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (!resendApiKey) {
+    return NextResponse.json({ success: false, error: "RESEND_API_KEY environment variable is not set." }, { status: 500 });
+  }
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
