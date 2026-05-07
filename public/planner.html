@@ -1,0 +1,2861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Accelerator — 8-Week Internship Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f14;
+    --bg2: #13141b;
+    --bg3: #1a1c26;
+    --card: #1e2030;
+    --card2: #252840;
+    --border: #2e3150;
+    --accent: #f5a623;
+    --accent2: #ff6b6b;
+    --accent3: #4ecdc4;
+    --accent4: #a78bfa;
+    --text: #e8eaf0;
+    --muted: #8890b0;
+    --faint: #3a3f60;
+    --week1: #f5a623;
+    --week2: #ff6b6b;
+    --week3: #4ecdc4;
+    --week4: #a78bfa;
+    --week5: #f06292;
+    --week6: #4dd0e1;
+    --week7: #81c784;
+    --week8: #ffb74d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* --- NOISE OVERLAY --- */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* --- HERO --- */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse at center, rgba(245,166,35,0.12) 0%, rgba(167,139,250,0.08) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.25s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.55s;
+  }
+
+  .meta-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+  }
+
+  .meta-chip .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* --- PROGRESS BAR --- */
+  .progress-section {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.65s;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .progress-track {
+    background: var(--bg3);
+    border-radius: 100px;
+    height: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent4));
+    border-radius: 100px;
+    width: 0%;
+    transition: width 1s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* --- LAYOUT --- */
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+    gap: 40px;
+    position: relative;
+  }
+
+  /* --- SIDEBAR --- */
+  .sidebar {
+    position: sticky;
+    top: 30px;
+    height: fit-content;
+  }
+
+  .sidebar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 16px;
+    padding-left: 4px;
+  }
+
+  .week-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .week-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+    color: var(--muted);
+  }
+
+  .week-btn:hover {
+    background: var(--bg3);
+    color: var(--text);
+  }
+
+  .week-btn.active {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .week-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .week-btn-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .week-btn-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0.6;
+  }
+
+  .week-btn-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .sidebar-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .stat-label {
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+  }
+
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  /* --- MAIN CONTENT --- */
+  .content { min-width: 0; }
+
+  .week-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .week-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .week-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .week-header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .week-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .week-header p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  .week-accent-bar {
+    position: absolute;
+    bottom: -1px; left: 0;
+    width: 60px; height: 2px;
+    border-radius: 2px;
+  }
+
+  .week-overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .overview-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+
+  .overview-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .exit-card {
+    grid-column: 1 / -1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+
+  .exit-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .exit-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .exit-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .exit-list li::before {
+    content: '✓';
+    color: var(--accent3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  /* --- DAY CARDS --- */
+  .days-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .day-card:hover {
+    border-color: var(--faint);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .day-card.done {
+    opacity: 0.6;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .day-checkbox {
+    width: 22px; height: 22px;
+    border: 2px solid var(--faint);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .day-card.done .day-checkbox {
+    background: var(--accent3);
+    border-color: var(--accent3);
+    color: var(--bg);
+  }
+
+  .day-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 44px;
+    flex-shrink: 0;
+  }
+
+  .day-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .day-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .badge-build { background: rgba(78,205,196,0.15); color: var(--accent3); border: 1px solid rgba(78,205,196,0.25); }
+  .badge-learn { background: rgba(167,139,250,0.15); color: var(--accent4); border: 1px solid rgba(167,139,250,0.25); }
+  .badge-ship { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.25); }
+  .badge-review { background: rgba(255,107,107,0.15); color: var(--accent2); border: 1px solid rgba(255,107,107,0.25); }
+  .badge-project { background: rgba(129,199,132,0.15); color: var(--week7); border: 1px solid rgba(129,199,132,0.25); }
+
+  .day-chevron {
+    color: var(--faint);
+    font-size: 12px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .day-card.open .day-chevron { transform: rotate(180deg); }
+
+  .day-body {
+    display: none;
+    padding: 0 20px 20px 76px;
+    border-top: 1px solid var(--border);
+  }
+
+  .day-card.open .day-body { display: block; }
+
+  .day-section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin: 16px 0 8px;
+  }
+
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .task-list li {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .task-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--faint);
+    font-size: 11px;
+    top: 1px;
+  }
+
+  .deliverable-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .deliverable-list li {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .deliverable-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 8px;
+    top: 3px;
+  }
+
+  .resource-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .resource-list li {
+    font-size: 12px;
+    color: var(--muted);
+    padding-left: 14px;
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .resource-list li::before {
+    content: '↗';
+    position: absolute;
+    left: 0;
+    color: var(--accent3);
+    font-size: 10px;
+  }
+
+  .callout {
+    background: var(--bg3);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .callout.info { border-color: var(--accent4); }
+  .callout.warn { border-color: var(--accent2); }
+  .callout.success { border-color: var(--accent3); }
+
+  .hours-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 9px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--muted);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* --- PROJECT CALLOUT CARDS --- */
+  .project-banner {
+    background: linear-gradient(135deg, var(--card2) 0%, var(--bg3) 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-banner::before {
+    content: 'PROJECT';
+    position: absolute;
+    top: 20px; right: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--faint);
+  }
+
+  .project-banner h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .project-banner p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .project-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .project-option {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+  }
+
+  /* --- MILESTONE BANNER --- */
+  .milestone {
+    background: linear-gradient(135deg, rgba(245,166,35,0.1), rgba(167,139,250,0.08));
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .milestone-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .milestone-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .milestone-text p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* --- FINAL SUCCESS SECTION --- */
+  .final-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px 80px;
+    border-top: 1px solid var(--border);
+  }
+
+  .final-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .final-section .sub {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 48px;
+  }
+
+  .outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .outcome-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .outcome-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .outcome-icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .outcome-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .outcome-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* --- ANIMATIONS --- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- SCROLLBAR --- */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; padding: 0 20px 80px; }
+    .sidebar { position: static; }
+    .week-nav { flex-direction: row; flex-wrap: wrap; }
+    .week-btn { width: auto; padding: 8px 12px; }
+    .week-btn-num { display: none; }
+    .week-overview-grid { grid-template-columns: 1fr; }
+    .hero { padding: 50px 20px 40px; }
+    .progress-section { padding: 0 20px; }
+    .final-section { padding: 40px 20px; }
+    .day-body { padding-left: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">8-Week Accelerator · June 1 → July 25</div>
+  <h1>ML Internship <em>Readiness</em><br>Roadmap</h1>
+  <p class="hero-sub">Not a course. Not a checklist. A curated execution plan designed to take you from "some Python" to a portfolio that stands out — in 56 days.</p>
+  <div class="hero-meta">
+    <div class="meta-chip"><span class="dot" style="background:#f5a623"></span>56 Days</div>
+    <div class="meta-chip"><span class="dot" style="background:#4ecdc4"></span>2 Production Projects</div>
+    <div class="meta-chip"><span class="dot" style="background:#a78bfa"></span>4–6 hrs/day</div>
+    <div class="meta-chip"><span class="dot" style="background:#ff6b6b"></span>Internship-Ready by July 25</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="progress-label">
+    <span id="progressLabel">0 / 56 days complete</span>
+    <span id="progressPct">0%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-label">Weeks</div>
+    <nav class="week-nav">
+      <button class="week-btn active" onclick="showWeek(1)" id="btn1">
+        <span class="week-dot" style="background:var(--week1)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 1–7</span>
+          <span class="week-btn-name">Python & Setup</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(2)" id="btn2">
+        <span class="week-dot" style="background:var(--week2)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 8–14</span>
+          <span class="week-btn-name">ML Foundations</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(3)" id="btn3">
+        <span class="week-dot" style="background:var(--week3)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 15–21</span>
+          <span class="week-btn-name">Classical ML</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(4)" id="btn4">
+        <span class="week-dot" style="background:var(--week4)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 22–28</span>
+          <span class="week-btn-name">Project 1 Ship</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(5)" id="btn5">
+        <span class="week-dot" style="background:var(--week5)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 29–35</span>
+          <span class="week-btn-name">Deep Learning</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(6)" id="btn6">
+        <span class="week-dot" style="background:var(--week6)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 36–42</span>
+          <span class="week-btn-name">Specialization</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(7)" id="btn7">
+        <span class="week-dot" style="background:var(--week7)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 43–49</span>
+          <span class="week-btn-name">Production</span>
+        </div>
+      </button>
+      <button class="week-btn" onclick="showWeek(8)" id="btn8">
+        <span class="week-dot" style="background:var(--week8)"></span>
+        <div class="week-btn-text">
+          <span class="week-btn-num">Days 50–56</span>
+          <span class="week-btn-name">Portfolio & Prep</span>
+        </div>
+      </button>
+    </nav>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-stats">
+      <div class="stat-row">
+        <span class="stat-label">Days done</span>
+        <span class="stat-val" id="statDone">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Days remaining</span>
+        <span class="stat-val" id="statLeft">56</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Projects shipped</span>
+        <span class="stat-val" id="statProj">0 / 2</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Current week</span>
+        <span class="stat-val" id="statWeek">W1</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <!-- ======== WEEK 1 ======== -->
+    <section class="week-section active" id="week1">
+      <div class="week-header">
+        <div class="week-header-tag">Week 1 · June 1–7</div>
+        <h2 style="color:var(--week1)">Python for ML<br>& Environment Setup</h2>
+        <p>Get fully operational with the real ML toolchain. No fluff. By Sunday you should be loading, cleaning, and visualizing datasets without friction.</p>
+        <div class="week-accent-bar" style="background:var(--week1)"></div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>Core Topics</h4>
+          <div class="tag-list">
+            <span class="tag">NumPy</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span>
+            <span class="tag">Seaborn</span><span class="tag">Git + GitHub</span><span class="tag">Jupyter/Colab</span>
+            <span class="tag">Data Cleaning</span><span class="tag">EDA</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>Week Deliverables</h4>
+          <div class="tag-list">
+            <span class="tag">Python refresh notebook</span>
+            <span class="tag">NumPy + Pandas notebook</span>
+            <span class="tag">1 cleaned EDA notebook</span>
+            <span class="tag">GitHub repo live</span>
+          </div>
+        </div>
+        <div class="exit-card">
+          <h4>Exit Criteria — can you do these by Day 7?</h4>
+          <ul class="exit-list">
+            <li>Load and clean any CSV dataset without Googling syntax</li>
+            <li>Filter, group, and merge DataFrames confidently</li>
+            <li>Create 5+ chart types and interpret what they show</li>
+            <li>Push work to GitHub and write a basic README</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <!-- Day 1 -->
+        <div class="day-card" id="d1">
+          <div class="day-header" onclick="toggleDay('d1')">
+            <div class="day-checkbox" onclick="markDone(event,'d1')">✓</div>
+            <span class="day-num">Day 01</span>
+            <span class="day-title">Environment Setup + Git Workflow Basics</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Install Python 3.10+, set up VS Code or Colab as your working environment</li>
+              <li>Install: numpy, pandas, matplotlib, seaborn, scikit-learn, jupyter</li>
+              <li>Create a GitHub account if needed; create your portfolio repo (e.g. <code>ml-journey-2024</code>)</li>
+              <li>Learn: git init, add, commit, push, pull, .gitignore basics</li>
+              <li>Write your first notebook: "Hello, Data Science" — just print shapes, open a CSV, show it</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>GitHub repo initialized with README and folder structure</li>
+              <li>First commit pushed</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>docs.github.com/en/get-started</li>
+              <li>realpython.com/python-virtual-environments-a-primer</li>
+            </ul>
+            <div class="callout info">Folder structure matters. Use: <code>/notebooks</code>, <code>/data</code>, <code>/projects</code>, <code>/notes</code> from day one.</div>
+          </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card" id="d2">
+          <div class="day-header" onclick="toggleDay('d2')">
+            <div class="day-checkbox" onclick="markDone(event,'d2')">✓</div>
+            <span class="day-num">Day 02</span>
+            <span class="day-title">Python Data Structures + Functions Refresh</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Revisit: lists, tuples, dicts, sets — focus on manipulation not memorization</li>
+              <li>Practice: list/dict comprehensions, zip, enumerate, map, filter</li>
+              <li>Write 15 short exercises: string manipulation, nested dicts, sorting custom keys</li>
+              <li>Functions: *args, **kwargs, default values, lambda functions</li>
+              <li>File I/O: read/write CSV and JSON without pandas</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Python refresh notebook with solutions, pushed to GitHub</li>
+            </ul>
+            <div class="callout warn">Skip OOP for now unless you already know it. You'll use it naturally when you need it.</div>
+          </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card" id="d3">
+          <div class="day-header" onclick="toggleDay('d3')">
+            <div class="day-checkbox" onclick="markDone(event,'d3')">✓</div>
+            <span class="day-num">Day 03</span>
+            <span class="day-title">NumPy — Arrays, Indexing, Broadcasting</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Array creation: zeros, ones, arange, linspace, random, eye</li>
+              <li>Indexing: 1D, 2D, boolean masks, fancy indexing</li>
+              <li>Reshaping: reshape, flatten, squeeze, expand_dims</li>
+              <li>Math ops: element-wise, dot product, axis-wise reductions</li>
+              <li>Broadcasting rules — understand them deeply, they'll show up everywhere</li>
+              <li>Solve 25 NumPy exercises (find numpy-100 on GitHub)</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>NumPy exercises notebook with your annotations explaining each trick</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>github.com/rougier/numpy-100</li>
+              <li>numpy.org/doc/stable/user/quickstart.html</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day-card" id="d4">
+          <div class="day-header" onclick="toggleDay('d4')">
+            <div class="day-checkbox" onclick="markDone(event,'d4')">✓</div>
+            <span class="day-num">Day 04</span>
+            <span class="day-title">Pandas — DataFrames, Filtering, Grouping</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Series and DataFrame creation from dicts, lists, CSV, JSON</li>
+              <li>Selecting: loc, iloc, column access, boolean filtering</li>
+              <li>Operations: apply, map, assign, rename, drop</li>
+              <li>Groupby: groupby + agg, transform, pivot_table</li>
+              <li>Merging: merge, concat, join — understand how SQL joins map here</li>
+              <li>Load a real dataset (e.g. Titanic or NYC taxi data) and explore it</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Pandas practice notebook with a real dataset</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>pandas.pydata.org/pandas-docs/stable/user_guide/10min.html</li>
+              <li>kaggle.com/datasets/uciml/pima-indians-diabetes-database</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day-card" id="d5">
+          <div class="day-header" onclick="toggleDay('d5')">
+            <div class="day-checkbox" onclick="markDone(event,'d5')">✓</div>
+            <span class="day-num">Day 05</span>
+            <span class="day-title">Data Cleaning + Feature Creation</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Detect and handle missing values: isnull, dropna, fillna (mean/median/ffill/custom)</li>
+              <li>Remove duplicates, fix dtypes, handle outliers (IQR method, z-score)</li>
+              <li>Create new features: binning, ratio features, date-based features</li>
+              <li>String cleaning: strip, replace, regex, extract</li>
+              <li>Take a messy real-world dataset and clean it end-to-end</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Mini EDA + cleaning notebook with before/after comparisons</li>
+            </ul>
+            <div class="callout">Good data cleaning = 60% of a good ML result. Treat it seriously from day one.</div>
+          </div>
+        </div>
+
+        <!-- Day 6 -->
+        <div class="day-card" id="d6">
+          <div class="day-header" onclick="toggleDay('d6')">
+            <div class="day-checkbox" onclick="markDone(event,'d6')">✓</div>
+            <span class="day-num">Day 06</span>
+            <span class="day-title">Matplotlib + Seaborn Visualization</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Matplotlib: line, bar, scatter, histogram, subplots, figure/axes API</li>
+              <li>Seaborn: heatmap, pairplot, violinplot, boxplot, countplot, regplot</li>
+              <li>Customization: titles, labels, annotations, color palettes, figure size</li>
+              <li>Practice: visualize a dataset and write 3-sentence interpretations of each chart</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Visualization notebook with 10+ charts and written interpretations</li>
+            </ul>
+            <div class="callout info">A chart you can't explain is a chart you didn't understand. Always write the "so what."</div>
+          </div>
+        </div>
+
+        <!-- Day 7 -->
+        <div class="day-card" id="d7">
+          <div class="day-header" onclick="toggleDay('d7')">
+            <div class="day-checkbox" onclick="markDone(event,'d7')">✓</div>
+            <span class="day-num">Day 07</span>
+            <span class="day-title">Week 1 Review + Push Everything</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Write a one-page "What I can now do" summary in your notes folder</li>
+              <li>Revisit any concept you found confusing this week</li>
+              <li>Ensure all notebooks are clean, titled, and pushed to GitHub</li>
+              <li>Update your README with what's in each notebook</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>All Week 1 notebooks on GitHub with descriptions</li>
+              <li>Personal revision notes written</li>
+            </ul>
+            <div class="callout success">You now have the toolchain. Week 2 is where ML actually starts.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 2 ======== -->
+    <section class="week-section" id="week2">
+      <div class="week-header">
+        <div class="week-header-tag">Week 2 · June 8–14</div>
+        <h2 style="color:var(--week2)">ML Fundamentals<br>& Math Intuition</h2>
+        <p>Learn only the math that immediately unlocks something practical. Understand ML without getting trapped in theory for 3 weeks.</p>
+        <div class="week-accent-bar" style="background:var(--week2)"></div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>Core Topics</h4>
+          <div class="tag-list">
+            <span class="tag">ML Pipeline</span><span class="tag">Train/Val/Test Split</span>
+            <span class="tag">Bias-Variance</span><span class="tag">Overfitting</span>
+            <span class="tag">Classification vs Regression</span><span class="tag">scikit-learn</span>
+            <span class="tag">Metrics: Accuracy/F1/AUC</span><span class="tag">Loss Functions</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>Week Deliverables</h4>
+          <div class="tag-list">
+            <span class="tag">ML concepts cheat sheet</span>
+            <span class="tag">First regression model</span>
+            <span class="tag">First classification model</span>
+            <span class="tag">Evaluation notebook</span>
+          </div>
+        </div>
+        <div class="exit-card">
+          <h4>Exit Criteria</h4>
+          <ul class="exit-list">
+            <li>Explain classification vs regression with real examples</li>
+            <li>Explain why overfitting happens and how to detect it</li>
+            <li>Explain why accuracy is sometimes a misleading metric</li>
+            <li>Use scikit-learn to train and evaluate your first models</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d8">
+          <div class="day-header" onclick="toggleDay('d8')">
+            <div class="day-checkbox" onclick="markDone(event,'d8')">✓</div>
+            <span class="day-num">Day 08</span>
+            <span class="day-title">What is ML? Terminology + The ML Pipeline</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Understand: feature, label, model, epoch, parameter vs hyperparameter, inference</li>
+              <li>Supervised vs unsupervised vs self-supervised — know real examples of each</li>
+              <li>Map the full ML pipeline: raw data → clean → features → model → eval → deploy</li>
+              <li>Classification vs regression: identify which is which for 10 real scenarios</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>One-page glossary of ML terms with your own plain-English definitions</li>
+            </ul>
+            <div class="callout">The pipeline is the mental model. Every project you build follows this same arc.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d9">
+          <div class="day-header" onclick="toggleDay('d9')">
+            <div class="day-checkbox" onclick="markDone(event,'d9')">✓</div>
+            <span class="day-num">Day 09</span>
+            <span class="day-title">Train/Val/Test Split + Data Leakage</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Why three splits? What each one is actually for</li>
+              <li>Stratified splits for imbalanced datasets</li>
+              <li>What data leakage is, why it's catastrophic, and 5 real examples of it</li>
+              <li>Practice: split a dataset 3 ways and verify no leakage in a pipeline</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Notebook demonstrating correct splitting with leakage prevention</li>
+            </ul>
+            <div class="callout warn">Leakage is the most common mistake that makes results look amazing in notebooks but fail in production. Understand this deeply.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d10">
+          <div class="day-header" onclick="toggleDay('d10')">
+            <div class="day-checkbox" onclick="markDone(event,'d10')">✓</div>
+            <span class="day-num">Day 10</span>
+            <span class="day-title">Bias, Variance, Overfitting, Underfitting</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Intuition: high bias = too simple, high variance = too complex</li>
+              <li>Visually understand training curve vs validation curve</li>
+              <li>Learn: regularization as a bias-variance tradeoff tool</li>
+              <li>Practice: intentionally overfit a model, then fix it</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Notebook showing overfitting/underfitting curves with annotations</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d11">
+          <div class="day-header" onclick="toggleDay('d11')">
+            <div class="day-checkbox" onclick="markDone(event,'d11')">✓</div>
+            <span class="day-num">Day 11</span>
+            <span class="day-title">Stats for ML — Intuition Only</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Mean, median, mode — when each matters and why</li>
+              <li>Variance and standard deviation — as spread measures</li>
+              <li>Correlation vs causation — critical for feature selection</li>
+              <li>Normal distribution, skewness, log transforms for ML data</li>
+              <li>Bayes' theorem intuition — P(A|B) in plain English</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Stats for ML cheat sheet — your own definitions, no copying</li>
+            </ul>
+            <div class="callout info">Don't study proofs. Study interpretations. You'll use these to justify decisions in interviews.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d12">
+          <div class="day-header" onclick="toggleDay('d12')">
+            <div class="day-checkbox" onclick="markDone(event,'d12')">✓</div>
+            <span class="day-num">Day 12</span>
+            <span class="day-title">scikit-learn Basics + First Regression Model</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>sklearn API pattern: fit(), predict(), score(), transform()</li>
+              <li>Train a LinearRegression model on a real dataset (Boston Housing deprecated → use Ames Housing)</li>
+              <li>Metrics: MAE, MSE, RMSE, R² — compute all, interpret each</li>
+              <li>Plot: actual vs predicted, residuals histogram</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Regression notebook with metric explanations and plots</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>kaggle.com/competitions/house-prices-advanced-regression-techniques</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d13">
+          <div class="day-header" onclick="toggleDay('d13')">
+            <div class="day-checkbox" onclick="markDone(event,'d13')">✓</div>
+            <span class="day-num">Day 13</span>
+            <span class="day-title">First Classification Model + Metrics Deep Dive</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Train LogisticRegression on a classification dataset (Pima Diabetes or Credit Card Fraud)</li>
+              <li>Compute: accuracy, precision, recall, F1 — understand each formula</li>
+              <li>Plot confusion matrix and interpret TP, FP, TN, FN</li>
+              <li>ROC curve and AUC — understand threshold-dependence</li>
+              <li>When do you optimize precision vs recall? (fraud detection vs medical screening)</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Classification notebook with confusion matrix, ROC, and metric analysis</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d14">
+          <div class="day-header" onclick="toggleDay('d14')">
+            <div class="day-checkbox" onclick="markDone(event,'d14')">✓</div>
+            <span class="day-num">Day 14</span>
+            <span class="day-title">Week 2 Revision + ML Cheat Sheet</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Create a one-page "ML Basics" cheat sheet in a PDF or Notion page</li>
+              <li>Explain to yourself (out loud): bias-variance tradeoff, train/val/test, precision vs recall</li>
+              <li>Push all notebooks, clean up README</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>ML Basics cheat sheet (you'll use this for interview prep in Week 8)</li>
+              <li>All notebooks organized and pushed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 3 ======== -->
+    <section class="week-section" id="week3">
+      <div class="week-header">
+        <div class="week-header-tag">Week 3 · June 15–21</div>
+        <h2 style="color:var(--week3)">Classical ML Models<br>+ Feature Engineering</h2>
+        <p>Build proper model pipelines on real tabular data. Learn the models you'll use most in industry and how to make them actually perform.</p>
+        <div class="week-accent-bar" style="background:var(--week3)"></div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>Core Topics</h4>
+          <div class="tag-list">
+            <span class="tag">Linear/Logistic Regression</span><span class="tag">KNN</span>
+            <span class="tag">Decision Trees</span><span class="tag">Random Forest</span>
+            <span class="tag">XGBoost/LightGBM</span><span class="tag">Cross-Validation</span>
+            <span class="tag">Hyperparameter Tuning</span><span class="tag">Feature Engineering</span>
+            <span class="tag">sklearn Pipelines</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>Week Deliverables</h4>
+          <div class="tag-list">
+            <span class="tag">Model comparison notebook</span>
+            <span class="tag">Feature engineering notebook</span>
+            <span class="tag">Full sklearn pipeline</span>
+            <span class="tag">Hyperparameter tuning demo</span>
+          </div>
+        </div>
+        <div class="exit-card">
+          <h4>Exit Criteria</h4>
+          <ul class="exit-list">
+            <li>Build a full preprocessing + model pipeline in sklearn</li>
+            <li>Compare 5 models fairly on the same train/val/test splits</li>
+            <li>Explain why one model outperforms another on a specific dataset</li>
+            <li>Perform hyperparameter search without data leakage</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d15">
+          <div class="day-header" onclick="toggleDay('d15')">
+            <div class="day-checkbox" onclick="markDone(event,'d15')">✓</div>
+            <span class="day-num">Day 15</span>
+            <span class="day-title">Linear & Logistic Regression — Coefficients & Intuition</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Linear regression: understand coefficients as "feature impact per unit"</li>
+              <li>Logistic regression: sigmoid function, log-odds, decision boundary</li>
+              <li>L1 (Lasso) vs L2 (Ridge) regularization — what each does to coefficients</li>
+              <li>Build both on a real dataset, inspect and interpret coefficients</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Notebook with coefficient analysis and regularization comparison</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d16">
+          <div class="day-header" onclick="toggleDay('d16')">
+            <div class="day-checkbox" onclick="markDone(event,'d16')">✓</div>
+            <span class="day-num">Day 16</span>
+            <span class="day-title">KNN + Scaling Importance</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>KNN: distance-based learning, choosing K, when it fails</li>
+              <li>Why scaling is mandatory for distance-based algorithms</li>
+              <li>StandardScaler vs MinMaxScaler vs RobustScaler — when to use which</li>
+              <li>Compare KNN with/without scaling — see the performance gap yourself</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Notebook showing KNN performance drop without scaling</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d17">
+          <div class="day-header" onclick="toggleDay('d17')">
+            <div class="day-checkbox" onclick="markDone(event,'d17')">✓</div>
+            <span class="day-num">Day 17</span>
+            <span class="day-title">Decision Trees + Random Forests</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Decision trees: Gini impurity vs entropy, max_depth, overfitting behavior</li>
+              <li>Visualize a decision tree — understand what splits it makes and why</li>
+              <li>Random forests: bagging, feature randomness, out-of-bag error</li>
+              <li>Feature importances from a trained RF — use for feature selection</li>
+              <li>Compare a deep tree (overfit) vs random forest (better generalization)</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Decision tree visualization + RF feature importance chart</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d18">
+          <div class="day-header" onclick="toggleDay('d18')">
+            <div class="day-checkbox" onclick="markDone(event,'d18')">✓</div>
+            <span class="day-num">Day 18</span>
+            <span class="day-title">Gradient Boosting — XGBoost & LightGBM</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Boosting intuition: sequential learners that fix each other's mistakes</li>
+              <li>XGBoost: install, basic training, early stopping on validation set</li>
+              <li>LightGBM: faster training, leaf-wise growth — when to prefer it</li>
+              <li>Key hyperparameters: n_estimators, learning_rate, max_depth, subsample</li>
+              <li>Run XGBoost vs LightGBM vs RandomForest on same dataset — compare results</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Model comparison table with train/val metrics for all three</li>
+            </ul>
+            <div class="callout info">Gradient boosting is the default champion on tabular data. Know it well — interviewers will ask.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d19">
+          <div class="day-header" onclick="toggleDay('d19')">
+            <div class="day-checkbox" onclick="markDone(event,'d19')">✓</div>
+            <span class="day-num">Day 19</span>
+            <span class="day-title">Cross-Validation + Hyperparameter Tuning</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>K-Fold CV: why it's more reliable than a single validation split</li>
+              <li>Stratified K-Fold for imbalanced classification</li>
+              <li>GridSearchCV: exhaustive search, when it's overkill</li>
+              <li>RandomizedSearchCV: smarter search for large hyperparameter spaces</li>
+              <li>Optuna (optional but recommended): modern hyperparameter optimization</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Tuned model with documented hyperparameter search results</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>optuna.readthedocs.io</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d20">
+          <div class="day-header" onclick="toggleDay('d20')">
+            <div class="day-checkbox" onclick="markDone(event,'d20')">✓</div>
+            <span class="day-num">Day 20</span>
+            <span class="day-title">Feature Engineering + sklearn Pipelines</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Encoding categoricals: OrdinalEncoder, OneHotEncoder, TargetEncoder</li>
+              <li>Numerical transforms: log transform, polynomial features, binning</li>
+              <li>ColumnTransformer for applying different transforms to different columns</li>
+              <li>Full Pipeline: ColumnTransformer + model in one sklearn Pipeline object</li>
+              <li>Practice: build a leakage-free pipeline on a real dataset</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Full sklearn Pipeline notebook — no manual preprocessing, zero leakage</li>
+            </ul>
+            <div class="callout success">A proper Pipeline is the difference between a student project and production code. Internship reviewers notice this.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d21">
+          <div class="day-header" onclick="toggleDay('d21')">
+            <div class="day-checkbox" onclick="markDone(event,'d21')">✓</div>
+            <span class="day-num">Day 21</span>
+            <span class="day-title">Mini-Project Review + Polish</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Pick the best Week 3 notebook; polish it to be recruiter-readable</li>
+              <li>Add markdown explanations before each code cell</li>
+              <li>Create a model performance summary table</li>
+              <li>Push everything and update GitHub README</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>One polished, well-documented ML comparison notebook</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 4 ======== -->
+    <section class="week-section" id="week4">
+      <div class="week-header">
+        <div class="week-header-tag">Week 4 · June 22–28</div>
+        <h2 style="color:var(--week4)">Project 1 —<br>Ship It Completely</h2>
+        <p>Week 4 is entirely dedicated to your first production-grade project. You must leave this week with something a recruiter can inspect, run, and understand in under 2 minutes.</p>
+        <div class="week-accent-bar" style="background:var(--week4)"></div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-icon">🚀</div>
+        <div class="milestone-text">
+          <h4>Milestone: First Project Shipped by Day 28</h4>
+          <p>End of this week = first line on your resume. Choose a project that's non-trivial, has real data, has a story, and ideally has a lightweight deployment.</p>
+        </div>
+      </div>
+
+      <div class="project-banner">
+        <h3>Choose Your Project 1 Direction</h3>
+        <p>Pick one. Don't overthink it. The execution matters more than the topic. Avoid anything called "predict house prices" with zero business framing.</p>
+        <div class="project-options">
+          <span class="project-option">📊 Churn Prediction + Business Report</span>
+          <span class="project-option">💳 Credit Risk Scoring System</span>
+          <span class="project-option">🎓 Student Performance Analytics</span>
+          <span class="project-option">🏥 Healthcare Readmission Predictor</span>
+          <span class="project-option">🛒 Retail Sales Forecasting Dashboard</span>
+        </div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>Project Must-Haves</h4>
+          <div class="tag-list">
+            <span class="tag">Clear problem statement</span>
+            <span class="tag">Data sourcing documented</span>
+            <span class="tag">EDA with real insights</span>
+            <span class="tag">Model comparison table</span>
+            <span class="tag">Metric justification</span>
+            <span class="tag">Error analysis</span>
+            <span class="tag">Limitations section</span>
+            <span class="tag">Clean README</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>Recruiter Checklist</h4>
+          <div class="tag-list">
+            <span class="tag">Understood in 2 min ✓</span>
+            <span class="tag">Non-trivial dataset ✓</span>
+            <span class="tag">Results explained ✓</span>
+            <span class="tag">Code is clean ✓</span>
+            <span class="tag">README is professional ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d22">
+          <div class="day-header" onclick="toggleDay('d22')">
+            <div class="day-checkbox" onclick="markDone(event,'d22')">✓</div>
+            <span class="day-num">Day 22</span>
+            <span class="day-title">Project Definition + Dataset Selection</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Write a 1-paragraph problem statement: what are you predicting, for whom, why it matters</li>
+              <li>Source your dataset: Kaggle, UCI ML Repository, data.gov, or Hugging Face Datasets</li>
+              <li>Verify: dataset has enough rows (&gt;1000), has meaningful features, has a clear target</li>
+              <li>Create your project repo with folders: /data, /notebooks, /src, /reports</li>
+              <li>Write initial README skeleton</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Project repo initialized with problem statement in README</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d23">
+          <div class="day-header" onclick="toggleDay('d23')">
+            <div class="day-checkbox" onclick="markDone(event,'d23')">✓</div>
+            <span class="day-num">Day 23</span>
+            <span class="day-title">Data Cleaning — Handle Everything</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Audit: shape, dtypes, nulls %, duplicate rows, class balance</li>
+              <li>Handle missings: document WHY you chose each strategy</li>
+              <li>Remove or flag outliers — explain your decision</li>
+              <li>Fix data types, parse dates if needed</li>
+              <li>Document every decision in markdown cells above the code</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>01-data-cleaning.ipynb — clean, annotated, pushed</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d24">
+          <div class="day-header" onclick="toggleDay('d24')">
+            <div class="day-checkbox" onclick="markDone(event,'d24')">✓</div>
+            <span class="day-num">Day 24</span>
+            <span class="day-title">EDA — 5 Real Insights Minimum</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Target distribution: how balanced is it? What does it mean for modeling?</li>
+              <li>Feature correlations with target — identify top predictors</li>
+              <li>Identify surprising patterns, anomalies, or actionable findings</li>
+              <li>Create at least 8 charts — every chart must have a written interpretation</li>
+              <li>Conclude: which features look important? Which are likely noise?</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>02-eda.ipynb with insights written in plain English</li>
+            </ul>
+            <div class="callout info">EDA is where you earn the right to make modeling decisions. Don't skip insights in favor of charts.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d25">
+          <div class="day-header" onclick="toggleDay('d25')">
+            <div class="day-checkbox" onclick="markDone(event,'d25')">✓</div>
+            <span class="day-num">Day 25</span>
+            <span class="day-title">Baseline Models + Performance Benchmark</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Set a naive baseline first: always-predict-majority-class accuracy</li>
+              <li>Train: LogisticRegression, RandomForest, XGBoost — minimal tuning</li>
+              <li>Evaluate all on the same validation split</li>
+              <li>Build a clean comparison DataFrame with all metrics side by side</li>
+              <li>Note the best performer — that's your candidate for further tuning</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>03-baseline-models.ipynb with performance comparison table</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d26">
+          <div class="day-header" onclick="toggleDay('d26')">
+            <div class="day-checkbox" onclick="markDone(event,'d26')">✓</div>
+            <span class="day-num">Day 26</span>
+            <span class="day-title">Feature Engineering + Model Improvement</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Add engineered features inspired by EDA insights</li>
+              <li>Try feature selection: drop low-importance features from RF</li>
+              <li>Tune your best model with RandomizedSearchCV or Optuna</li>
+              <li>Re-compare: did your improvements actually help?</li>
+              <li>Check: are any improvements coming from leakage? Audit again.</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>04-feature-engineering.ipynb showing clear before/after improvement</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d27">
+          <div class="day-header" onclick="toggleDay('d27')">
+            <div class="day-checkbox" onclick="markDone(event,'d27')">✓</div>
+            <span class="day-num">Day 27</span>
+            <span class="day-title">Error Analysis + Test Set Evaluation</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Final evaluation on test set — this is your official number, don't tune after this</li>
+              <li>Analyze misclassifications (or high-residual predictions for regression)</li>
+              <li>Find patterns in errors: which types of examples fail? Why?</li>
+              <li>Write a Limitations section: what could fail in real deployment?</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Final test metrics documented</li>
+              <li>Written error analysis with examples</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d28">
+          <div class="day-header" onclick="toggleDay('d28')">
+            <div class="day-checkbox" onclick="markDone(event,'d28')">✓</div>
+            <span class="day-num">Day 28</span>
+            <span class="day-title">Final README + Ship Project 1 🚀</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Write a professional README: problem → data → approach → results → limitations → next steps</li>
+              <li>Add badges (Python version, license, status)</li>
+              <li>Optional: build a minimal Streamlit UI for predictions</li>
+              <li>Optional: deploy on Streamlit Cloud or Hugging Face Spaces</li>
+              <li>Tag the commit as "v1.0-project1-complete"</li>
+              <li>Write a LinkedIn post: what did you build, what did you learn, what was hard</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Project 1 — fully shipped with professional README</li>
+              <li>LinkedIn post published</li>
+            </ul>
+            <div class="callout success">🎉 Project 1 done. You have a real thing to show. This is not a notebook — this is a portfolio asset. Deep breath. Week 5 next.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 5 ======== -->
+    <section class="week-section" id="week5">
+      <div class="week-header">
+        <div class="week-header-tag">Week 5 · June 29 – July 5</div>
+        <h2 style="color:var(--week5)">Deep Learning<br>Foundations</h2>
+        <p>Transition from classical ML to neural networks. Understand the foundations without getting lost in math — and ship a working neural net by Friday.</p>
+        <div class="week-accent-bar" style="background:var(--week5)"></div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>Core Topics</h4>
+          <div class="tag-list">
+            <span class="tag">Perceptrons & Layers</span><span class="tag">Activation Functions</span>
+            <span class="tag">Backpropagation</span><span class="tag">Optimizers (SGD/Adam)</span>
+            <span class="tag">Dropout & Regularization</span><span class="tag">PyTorch or TensorFlow</span>
+            <span class="tag">Training Loops</span><span class="tag">GPU / Colab</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>Week Deliverables</h4>
+          <div class="tag-list">
+            <span class="tag">MLP built in PyTorch/TF</span>
+            <span class="tag">Training curves visualized</span>
+            <span class="tag">Classical ML vs DL comparison</span>
+            <span class="tag">DL revision notes</span>
+          </div>
+        </div>
+        <div class="exit-card">
+          <h4>Exit Criteria</h4>
+          <ul class="exit-list">
+            <li>Explain forward pass, backward pass, and weight update in plain English</li>
+            <li>Build and train a simple MLP from scratch in PyTorch or TensorFlow</li>
+            <li>Plot training vs validation curves and identify overfitting</li>
+            <li>Know when deep learning is worth it vs when it isn't</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d29">
+          <div class="day-header" onclick="toggleDay('d29')">
+            <div class="day-checkbox" onclick="markDone(event,'d29')">✓</div>
+            <span class="day-num">Day 29</span>
+            <span class="day-title">Neurons, Layers, Activations — Intuition</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Perceptron: weighted sum + activation = output</li>
+              <li>Why non-linear activations? ReLU, Sigmoid, Tanh — know where each is used</li>
+              <li>Layers: input → hidden(s) → output — how information flows forward</li>
+              <li>Why depth matters: each layer learns more abstract representations</li>
+              <li>Softmax for multiclass classification</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Hand-drawn or typed diagram of a 3-layer neural network with annotations</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>3blue1brown.com — "Neural Networks" playlist (chapters 1–3)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d30">
+          <div class="day-header" onclick="toggleDay('d30')">
+            <div class="day-checkbox" onclick="markDone(event,'d30')">✓</div>
+            <span class="day-num">Day 30</span>
+            <span class="day-title">Backpropagation + Gradient Descent Intuition</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Loss function: the "how wrong are we?" number — understand MSE and Cross-Entropy</li>
+              <li>Gradient descent: move weights in the direction of steepest descent on the loss landscape</li>
+              <li>Backpropagation: chain rule applied layer by layer to compute gradients</li>
+              <li>Learning rate: too high = diverge, too low = slow/stuck</li>
+              <li>Adam optimizer: adaptive learning rates — why it's usually the default choice</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Written explanation: "explain backprop to a 15-year-old" — keep it under 150 words</li>
+            </ul>
+            <div class="callout">If you can explain it simply, you understand it. If you can only recite formulas, you don't — yet.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d31">
+          <div class="day-header" onclick="toggleDay('d31')">
+            <div class="day-checkbox" onclick="markDone(event,'d31')">✓</div>
+            <span class="day-num">Day 31</span>
+            <span class="day-title">Build Your First Neural Net in PyTorch</span>
+            <span class="hours-pill">⏱ 6h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Set up PyTorch in Colab — enable GPU runtime</li>
+              <li>Understand: Tensors as PyTorch's NumPy arrays, gradient tracking</li>
+              <li>Define a model using nn.Module with at least 3 layers</li>
+              <li>Write training loop: forward pass → loss → backward → optimizer.step</li>
+              <li>Use a tabular dataset (e.g. your Project 1 data) as a sanity check</li>
+              <li>Plot loss curves for train and validation</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>First PyTorch MLP — training loop, loss curves, inference cell</li>
+            </ul>
+            <div class="day-section-label">Resources</div>
+            <ul class="resource-list">
+              <li>pytorch.org/tutorials/beginner/basics/intro.html</li>
+              <li>learnpytorch.io (highly recommended — very beginner-friendly)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d32">
+          <div class="day-header" onclick="toggleDay('d32')">
+            <div class="day-checkbox" onclick="markDone(event,'d32')">✓</div>
+            <span class="day-num">Day 32</span>
+            <span class="day-title">Regularization in Neural Networks</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-learn">Learn</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Dropout: randomly zero out neurons during training — forces robustness</li>
+              <li>Batch Normalization: normalize activations between layers — stabilizes training</li>
+              <li>Weight decay (L2 in optimizers): penalize large weights</li>
+              <li>Early stopping: monitor validation loss, stop when it starts rising</li>
+              <li>Experiment: add dropout to your Day 31 model and see if it helps</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Comparison: model with vs without dropout/batch norm</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d33">
+          <div class="day-header" onclick="toggleDay('d33')">
+            <div class="day-checkbox" onclick="markDone(event,'d33')">✓</div>
+            <span class="day-num">Day 33</span>
+            <span class="day-title">Hyperparameter Tuning for Neural Nets</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Learning rate scheduling: StepLR, CosineAnnealingLR — try at least one</li>
+              <li>Batch size effects: large batches = faster, sometimes worse generalization</li>
+              <li>Network depth vs width: run experiments, observe the tradeoffs</li>
+              <li>Use Optuna to tune learning_rate, batch_size, num_layers automatically</li>
+              <li>Document: what improved results and what didn't — the "why" matters</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Tuning experiment log with at least 5 configurations tested</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d34">
+          <div class="day-header" onclick="toggleDay('d34')">
+            <div class="day-checkbox" onclick="markDone(event,'d34')">✓</div>
+            <span class="day-num">Day 34</span>
+            <span class="day-title">Classical ML vs Deep Learning — Head-to-Head</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Train XGBoost and your MLP on the same dataset</li>
+              <li>Compare: accuracy, F1, training time, interpretability, ease of tuning</li>
+              <li>Try on two datasets: one small (&lt;5k rows), one larger (&gt;50k rows) if available</li>
+              <li>Write conclusion: "When do I reach for deep learning?"</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Comparison notebook with your written decision framework</li>
+            </ul>
+            <div class="callout warn">On small tabular data: XGBoost wins almost always. On images, text, audio: deep learning wins. Know this rule.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d35">
+          <div class="day-header" onclick="toggleDay('d35')">
+            <div class="day-checkbox" onclick="markDone(event,'d35')">✓</div>
+            <span class="day-num">Day 35</span>
+            <span class="day-title">Deep Learning Revision + Half-Way Milestone</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Write "Deep Learning Basics" cheat sheet: activations, loss functions, optimizers, regularization</li>
+              <li>Verbally explain to yourself: backprop, dropout, learning rate schedule</li>
+              <li>Audit your GitHub: are all repos well-described? Is your profile clean?</li>
+              <li>Look at Week 6 preview — choose your specialization right now</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>DL cheat sheet written</li>
+              <li>Specialization choice finalized</li>
+            </ul>
+            <div class="callout success">🎯 Half-way point. You have 1 project shipped, 35 days of ML foundations. The second half is where the real portfolio is built.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 6 ======== -->
+    <section class="week-section" id="week6">
+      <div class="week-header">
+        <div class="week-header-tag">Week 6 · July 6–12</div>
+        <h2 style="color:var(--week6)">Specialization<br>+ Project 2 Start</h2>
+        <p>This week determines whether your portfolio looks ordinary or impressive. Pick one domain, commit to it, and build something modern enough to make interviewers lean forward.</p>
+        <div class="week-accent-bar" style="background:var(--week6)"></div>
+      </div>
+
+      <div class="project-banner">
+        <h3>Pick Your Specialization — Then Your Project</h3>
+        <p>Choose ONE. Execute deeply. Breadth at this stage helps nothing. Depth is what gets you remembered.</p>
+        <div class="project-options">
+          <span class="project-option">🤖 NLP / LLMs — RAG app, resume analyzer, PDF chatbot</span>
+          <span class="project-option">👁️ Computer Vision — medical classifier, OCR pipeline, detector</span>
+          <span class="project-option">📈 Data Science — forecasting dashboard, recommendation engine</span>
+        </div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>NLP / LLM Track Tools</h4>
+          <div class="tag-list">
+            <span class="tag">HuggingFace Transformers</span><span class="tag">LangChain</span>
+            <span class="tag">FAISS / ChromaDB</span><span class="tag">OpenAI API</span>
+            <span class="tag">Sentence Transformers</span><span class="tag">RAG Architecture</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>CV Track Tools</h4>
+          <div class="tag-list">
+            <span class="tag">torchvision</span><span class="tag">timm</span>
+            <span class="tag">ResNet / EfficientNet</span><span class="tag">Transfer Learning</span>
+            <span class="tag">OpenCV</span><span class="tag">Albumentations</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d36">
+          <div class="day-header" onclick="toggleDay('d36')">
+            <div class="day-checkbox" onclick="markDone(event,'d36')">✓</div>
+            <span class="day-num">Day 36</span>
+            <span class="day-title">Define Project 2 — Problem + Stack + Plan</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Write a formal project spec: problem statement, users, inputs, outputs, success metrics</li>
+              <li>Define the tech stack: model backbone, data source, UI framework, deployment target</li>
+              <li>Create the GitHub repo with full folder structure</li>
+              <li>Sketch the system architecture: data flow from input → model → output → UI</li>
+              <li>Set a minimum viable completion checkpoint for Day 42</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Project spec document in /docs or README</li>
+              <li>Architecture diagram (draw.io, excalidraw, or hand-drawn)</li>
+            </ul>
+            <div class="callout info">A bad plan executed is better than a perfect plan unstarted. Define it today, adjust as you go.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d37">
+          <div class="day-header" onclick="toggleDay('d37')">
+            <div class="day-checkbox" onclick="markDone(event,'d37')">✓</div>
+            <span class="day-num">Day 37</span>
+            <span class="day-title">Data Collection, Cleaning, Documentation</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Download or scrape your dataset; verify licensing allows your use case</li>
+              <li>Inspect: classes, labels, image quality (CV) or text quality (NLP)</li>
+              <li>Handle class imbalance if present: oversample, undersample, or weight loss</li>
+              <li>Write a data card: what's in the dataset, where it came from, any known issues</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Cleaned dataset ready for training</li>
+              <li>Data documentation in /data/README.md</li>
+            </ul>
+            <div class="callout">Most real ML work is data work. If this takes all day, that's expected and correct.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d38">
+          <div class="day-header" onclick="toggleDay('d38')">
+            <div class="day-checkbox" onclick="markDone(event,'d38')">✓</div>
+            <span class="day-num">Day 38</span>
+            <span class="day-title">Build the Baseline Pipeline — Fast</span>
+            <span class="hours-pill">⏱ 6h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>NLP: load a pretrained model (HuggingFace), run basic inference on your data</li>
+              <li>CV: use a pretrained ResNet/EfficientNet (torchvision/timm), adapt final layer, train on your data</li>
+              <li>Analytics: build the data pipeline, run first model, visualize output</li>
+              <li>Goal: a fully working end-to-end flow — ugly is fine, working is mandatory</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>First working prototype — runs end-to-end without crashing</li>
+            </ul>
+            <div class="callout success">A bad working prototype beats a beautiful broken one. Commit to shipping something real every 48 hours.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d39">
+          <div class="day-header" onclick="toggleDay('d39')">
+            <div class="day-checkbox" onclick="markDone(event,'d39')">✓</div>
+            <span class="day-num">Day 39</span>
+            <span class="day-title">Evaluation + Bottleneck Analysis</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>CV: confusion matrix, per-class accuracy, which classes fail most</li>
+              <li>NLP/RAG: run test queries, identify hallucinations or irrelevant retrievals</li>
+              <li>Analytics: model error analysis, forecast vs actual gaps</li>
+              <li>Document: top 3 failure modes and hypotheses for why they occur</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Failure analysis document — specific examples of bad outputs + reasons</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d40">
+          <div class="day-header" onclick="toggleDay('d40')">
+            <div class="day-checkbox" onclick="markDone(event,'d40')">✓</div>
+            <span class="day-num">Day 40</span>
+            <span class="day-title">Improve the System — Targeted Upgrades</span>
+            <span class="hours-pill">⏱ 6h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>CV: data augmentation (Albumentations), fine-tune more layers, try a different backbone</li>
+              <li>NLP/RAG: improve chunking strategy, try better embeddings, add reranking</li>
+              <li>General: hyperparameter tuning, feature engineering, architecture changes</li>
+              <li>Track every experiment: before/after metric table with explanations</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Experiment log with ≥3 iterations and measured improvements</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d41">
+          <div class="day-header" onclick="toggleDay('d41')">
+            <div class="day-checkbox" onclick="markDone(event,'d41')">✓</div>
+            <span class="day-num">Day 41</span>
+            <span class="day-title">Build the UI / API Layer</span>
+            <span class="hours-pill">⏱ 6h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Streamlit (fastest): build a clean interactive interface around your model</li>
+              <li>Gradio (also fast): great for model demos with built-in HuggingFace integration</li>
+              <li>FastAPI (if you want an API): REST endpoint for inference — add a frontend if time allows</li>
+              <li>Include: file upload, live prediction, output display, sample inputs for demo</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Interactive demo UI — runs locally and looks clean</li>
+            </ul>
+            <div class="callout info">Recruiters who can interact with your project are 3× more likely to remember you. Don't underestimate this step.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d42">
+          <div class="day-header" onclick="toggleDay('d42')">
+            <div class="day-checkbox" onclick="markDone(event,'d42')">✓</div>
+            <span class="day-num">Day 42</span>
+            <span class="day-title">Code Cleanup + Repo Refactoring</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Move model logic out of notebooks into /src Python files</li>
+              <li>Add requirements.txt with pinned versions</li>
+              <li>Add .env handling for API keys (never hardcode keys)</li>
+              <li>Write docstrings for key functions</li>
+              <li>Remove dead code, old experiments, unused imports</li>
+              <li>Test: does it run cleanly from a fresh clone?</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Clean repository that can be cloned and run by anyone in 3 steps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 7 ======== -->
+    <section class="week-section" id="week7">
+      <div class="week-header">
+        <div class="week-header-tag">Week 7 · July 13–19</div>
+        <h2 style="color:var(--week7)">Productionization<br>& Deployment</h2>
+        <p>This week separates student notebooks from real portfolio projects. Everything you built gets polished, deployed, and made presentation-ready.</p>
+        <div class="week-accent-bar" style="background:var(--week7)"></div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-icon">🌐</div>
+        <div class="milestone-text">
+          <h4>Milestone: Project 2 Deployed & Public by Day 49</h4>
+          <p>A live URL is worth 10× a screenshot. A professional README is worth 5× messy code. Both must exist by end of Week 7.</p>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d43">
+          <div class="day-header" onclick="toggleDay('d43')">
+            <div class="day-checkbox" onclick="markDone(event,'d43')">✓</div>
+            <span class="day-num">Day 43</span>
+            <span class="day-title">Finalize Core Logic + Stability</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Run through the full user flow 10+ times — catch crashes, edge cases</li>
+              <li>Optimize inference speed: model caching, batch processing if applicable</li>
+              <li>Remove experimental features not ready for demo</li>
+              <li>Ensure prediction outputs are clean and human-readable</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Core pipeline that runs reliably 10/10 times</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d44">
+          <div class="day-header" onclick="toggleDay('d44')">
+            <div class="day-checkbox" onclick="markDone(event,'d44')">✓</div>
+            <span class="day-num">Day 44</span>
+            <span class="day-title">UI Polish + User Experience</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-project">Project</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Clean layout: everything visible without scrolling on first load</li>
+              <li>Add loading indicators — users need to know the model is working</li>
+              <li>Add sample inputs / demo mode so recruiters don't need to upload files</li>
+              <li>Error messages: user-friendly, not raw Python tracebacks</li>
+              <li>Add a "How it works" section within the UI</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>UI someone unfamiliar can use without instructions</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d45">
+          <div class="day-header" onclick="toggleDay('d45')">
+            <div class="day-checkbox" onclick="markDone(event,'d45')">✓</div>
+            <span class="day-num">Day 45</span>
+            <span class="day-title">Deploy — Make It Public</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Streamlit app → Streamlit Cloud (free, instant, GitHub-connected)</li>
+              <li>HuggingFace Spaces → best for ML demos, supports Gradio and Streamlit</li>
+              <li>FastAPI → Render or Railway (free tier available)</li>
+              <li>Add environment variables properly (never commit API keys)</li>
+              <li>Verify the deployed URL works end-to-end from a different device</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Live public URL — copy it into your README and LinkedIn right now</li>
+            </ul>
+            <div class="callout success">A deployed link on a resume hits differently. Even if it's simple, deploy it.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d46">
+          <div class="day-header" onclick="toggleDay('d46')">
+            <div class="day-checkbox" onclick="markDone(event,'d46')">✓</div>
+            <span class="day-num">Day 46</span>
+            <span class="day-title">Edge Cases + Input Validation</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-build">Build</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Test: empty input, wrong file type, huge file, adversarial text, corrupt image</li>
+              <li>Add graceful error handling for all edge cases</li>
+              <li>Set max file size limits if needed</li>
+              <li>Rate limiting if you're using paid APIs (OpenAI etc.)</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>App that fails gracefully and gives helpful error messages</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d47">
+          <div class="day-header" onclick="toggleDay('d47')">
+            <div class="day-checkbox" onclick="markDone(event,'d47')">✓</div>
+            <span class="day-num">Day 47</span>
+            <span class="day-title">Write the Professional README</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Title + one-sentence description at the top</li>
+              <li>Demo link (🔗 Live Demo) prominently placed</li>
+              <li>Problem statement: what problem does this solve?</li>
+              <li>Features list: what can users actually do?</li>
+              <li>Architecture overview: model, data pipeline, tech stack</li>
+              <li>Results / metrics: numbers that prove it works</li>
+              <li>Setup instructions: how to run locally in 3 commands</li>
+              <li>Demo screenshots / GIFs</li>
+              <li>Limitations and future work</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>README that a recruiter can fully understand in under 2 minutes</li>
+            </ul>
+            <div class="callout warn">A weak README signals weak communication skills. A strong README signals someone who ships real products.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d48">
+          <div class="day-header" onclick="toggleDay('d48')">
+            <div class="day-checkbox" onclick="markDone(event,'d48')">✓</div>
+            <span class="day-num">Day 48</span>
+            <span class="day-title">Demo Video / GIF / Screenshots</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Record a 60-90 second walkthrough: problem → input → output → explain result</li>
+              <li>Tools: Loom (free), OBS, or Screen2GIF for animated GIF</li>
+              <li>Add GIF to README (shows instantly, no clicking required)</li>
+              <li>Save for LinkedIn post — this is your project announcement content</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Demo GIF or video link embedded in README</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d49">
+          <div class="day-header" onclick="toggleDay('d49')">
+            <div class="day-checkbox" onclick="markDone(event,'d49')">✓</div>
+            <span class="day-num">Day 49</span>
+            <span class="day-title">Final Polish + Ship Project 2 🚀</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Final end-to-end test on deployed version</li>
+              <li>Tag commit as "v1.0-project2-complete"</li>
+              <li>Add to GitHub pinned repos immediately</li>
+              <li>Write and publish LinkedIn post: problem, approach, result, lesson learned</li>
+              <li>Add live demo link to resume</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Project 2 — fully shipped, deployed, and announced</li>
+              <li>Both projects now on GitHub, LinkedIn, and resume</li>
+            </ul>
+            <div class="callout success">🎉 Two production projects. Deployed. Documented. You've done what most ML learners never do. Week 8 is about making sure you can talk about it.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WEEK 8 ======== -->
+    <section class="week-section" id="week8">
+      <div class="week-header">
+        <div class="week-header-tag">Week 8 · July 20–25</div>
+        <h2 style="color:var(--week8)">Portfolio Polish<br>& Internship Readiness</h2>
+        <p>The last week is about converting your work into applications. Polish the portfolio, optimize for recruiters, prepare for technical screens, and apply aggressively.</p>
+        <div class="week-accent-bar" style="background:var(--week8)"></div>
+      </div>
+
+      <div class="week-overview-grid">
+        <div class="overview-card">
+          <h4>This Week's Focus</h4>
+          <div class="tag-list">
+            <span class="tag">GitHub cleanup</span><span class="tag">Resume bullets</span>
+            <span class="tag">LinkedIn optimization</span><span class="tag">ML theory revision</span>
+            <span class="tag">Project storytelling</span><span class="tag">Mock interviews</span>
+            <span class="tag">Application tracker</span><span class="tag">Cold outreach</span>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h4>End-of-Week 8 Outputs</h4>
+          <div class="tag-list">
+            <span class="tag">Clean GitHub profile</span>
+            <span class="tag">Polished 1-page resume</span>
+            <span class="tag">ML-focused LinkedIn</span>
+            <span class="tag">Interview prep notes</span>
+            <span class="tag">Applications submitted</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-card" id="d50">
+          <div class="day-header" onclick="toggleDay('d50')">
+            <div class="day-checkbox" onclick="markDone(event,'d50')">✓</div>
+            <span class="day-num">Day 50</span>
+            <span class="day-title">GitHub Profile Cleanup</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Pin your 2 main projects + 2 best notebooks to the top of your profile</li>
+              <li>Update profile bio: 1-2 sentences describing what you build</li>
+              <li>Add a profile README (github.com/yourusername/yourusername) with skills, links, current focus</li>
+              <li>Ensure all pinned repos have: description, tags, live demo link</li>
+              <li>Archive or hide embarrassing repos from 2020</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>GitHub profile that looks like a builder, not a student</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d51">
+          <div class="day-header" onclick="toggleDay('d51')">
+            <div class="day-checkbox" onclick="markDone(event,'d51')">✓</div>
+            <span class="day-num">Day 51</span>
+            <span class="day-title">Resume — Impact-Driven ML Bullets</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Each project bullet: Action verb + Method + Tool + Result/Impact</li>
+              <li>Include: model type, metric achieved, deployment method, scale if applicable</li>
+              <li>Skills section: Python, PyTorch/TensorFlow, scikit-learn, Pandas, SQL (if you know it), your specialization tools</li>
+              <li>Keep it to 1 page — ruthless editing required</li>
+            </ul>
+            <div class="day-section-label">Example Bullets</div>
+            <ul class="exit-list">
+              <li>Built a RAG-based study assistant using LangChain and ChromaDB, enabling semantic search across 50+ uploaded PDFs with source citations</li>
+              <li>Trained a ResNet-50 transfer learning model for skin lesion classification achieving 91% F1 on a 10-class dataset, deployed to Hugging Face Spaces</li>
+              <li>Developed an end-to-end customer churn predictor with LightGBM, reducing false negatives by 40% vs baseline using threshold optimization</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d52">
+          <div class="day-header" onclick="toggleDay('d52')">
+            <div class="day-checkbox" onclick="markDone(event,'d52')">✓</div>
+            <span class="day-num">Day 52</span>
+            <span class="day-title">LinkedIn Optimization</span>
+            <span class="hours-pill">⏱ 3h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Headline: "ML Engineer Intern Candidate | Computer Vision + NLP | Building at [specialty]"</li>
+              <li>About section: 3 sentences — who you are, what you've built, what you're looking for</li>
+              <li>Featured section: pin both projects with screenshots and links</li>
+              <li>Skills: add ML-specific skills and get 2–3 endorsements if possible</li>
+              <li>Post one final summary post: "8 weeks, 2 deployed ML projects, here's what I built"</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>LinkedIn profile that a recruiter searching "ML intern" finds compelling</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d53">
+          <div class="day-header" onclick="toggleDay('d53')">
+            <div class="day-checkbox" onclick="markDone(event,'d53')">✓</div>
+            <span class="day-num">Day 53</span>
+            <span class="day-title">Project Storytelling Practice</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>For each project, prepare three versions of the explanation:</li>
+              <li>30-second pitch: problem + approach + key result</li>
+              <li>2-minute version: add architecture details, key decisions, challenges</li>
+              <li>5-minute deep dive: everything including failures, what you'd change, what's next</li>
+              <li>Practice out loud — this feels uncomfortable and is exactly why you need to do it</li>
+            </ul>
+            <div class="day-section-label">Interview Questions to Prepare</div>
+            <ul class="exit-list">
+              <li>Why did you choose this model over alternatives?</li>
+              <li>What was the hardest part of building this?</li>
+              <li>How would you scale this to 10× more data?</li>
+              <li>What would you improve if you had 2 more weeks?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d54">
+          <div class="day-header" onclick="toggleDay('d54')">
+            <div class="day-checkbox" onclick="markDone(event,'d54')">✓</div>
+            <span class="day-num">Day 54</span>
+            <span class="day-title">ML Theory Interview Prep</span>
+            <span class="hours-pill">⏱ 5h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Must-Know Topics</div>
+            <ul class="task-list">
+              <li>Bias vs variance tradeoff — give a concrete example of each</li>
+              <li>Precision vs recall — when to optimize for which, with industry examples</li>
+              <li>Why is accuracy a bad metric for imbalanced data?</li>
+              <li>What is regularization? L1 vs L2 in plain English</li>
+              <li>Explain gradient descent and learning rate in your own words</li>
+              <li>What is cross-validation and why is it better than a single validation split?</li>
+              <li>How does a random forest differ from a single decision tree?</li>
+              <li>What is overfitting? How do you fix it?</li>
+              <li>What is transfer learning? When would you use it?</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Answers written in your own words for all 9 questions above</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="day-card" id="d55">
+          <div class="day-header" onclick="toggleDay('d55')">
+            <div class="day-checkbox" onclick="markDone(event,'d55')">✓</div>
+            <span class="day-num">Day 55</span>
+            <span class="day-title">Coding Practice + Pandas Manipulation</span>
+            <span class="hours-pill">⏱ 4h</span>
+            <span class="day-badge badge-review">Review</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Solve 10 easy–medium LeetCode problems in Python: arrays, strings, hashmaps, sorting</li>
+              <li>Practice Pandas manipulation: groupby, pivot, merge, window functions</li>
+              <li>Practice SQL basics if any target roles mention it: SELECT, GROUP BY, JOIN, subqueries</li>
+            </ul>
+            <div class="day-section-label">Focus Areas</div>
+            <ul class="exit-list">
+              <li>Two Sum, Valid Parentheses, Top K Frequent Elements</li>
+              <li>Pandas: find top 3 categories by revenue per region</li>
+              <li>SQL: running totals, lag/lead, simple CTEs</li>
+            </ul>
+            <div class="callout info">Don't grind hard LeetCode. ML intern screens usually test data manipulation and easy coding — not DP or graph algorithms.</div>
+          </div>
+        </div>
+
+        <div class="day-card" id="d56">
+          <div class="day-header" onclick="toggleDay('d56')">
+            <div class="day-checkbox" onclick="markDone(event,'d56')">✓</div>
+            <span class="day-num">Day 56</span>
+            <span class="day-title">Mock Interviews + Application Blitz 🎯</span>
+            <span class="hours-pill">⏱ 6h</span>
+            <span class="day-badge badge-ship">Ship</span>
+            <span class="day-chevron">▼</span>
+          </div>
+          <div class="day-body">
+            <div class="day-section-label">Tasks</div>
+            <ul class="task-list">
+              <li>Conduct 2 mock technical interviews — use a friend, Pramp, or Interviewing.io</li>
+              <li>Behavioral prep: "Tell me about a project", "What was your biggest failure", "Why ML?"</li>
+              <li>Submit applications to 10–15 companies: startups, mid-size, large — mix your targets</li>
+              <li>Cold outreach: identify 3 ML engineers at target companies, write personalised DMs</li>
+              <li>Build an application tracker in Notion/Sheet: company, role, status, contact, deadline</li>
+            </ul>
+            <div class="day-section-label">Deliverables</div>
+            <ul class="deliverable-list">
+              <li>Applications submitted</li>
+              <li>Application tracker set up</li>
+              <li>Cold outreach messages sent</li>
+            </ul>
+            <div class="callout success">🏁 Day 56. You've done something most people talk about for years but never execute. Now apply everywhere and let the work speak.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FINAL SUCCESS -->
+<div class="final-section">
+  <h2>Final Success Standard</h2>
+  <p class="sub">What "done" looks like by July 25th</p>
+  <div class="outcomes-grid">
+    <div class="outcome-card">
+      <div class="outcome-icon">🚀</div>
+      <h4>2 Shipped Projects</h4>
+      <p>Deployed, public, documented, non-trivial. Recruiters can interact with both in under 60 seconds.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">💻</div>
+      <h4>Professional GitHub</h4>
+      <p>Pinned projects, clean profile, consistent commit history, descriptive READMEs throughout.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">📄</div>
+      <h4>Internship-Ready Resume</h4>
+      <p>Impact-driven bullets, correct ML terminology, 1 page, targeted for ML/AI/Data Science roles.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🧠</div>
+      <h4>Interview-Ready Theory</h4>
+      <p>Can answer core ML questions confidently, discuss tradeoffs, and explain your own projects in depth.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">🌐</div>
+      <h4>At Least 1 Live URL</h4>
+      <p>Something deployed and accessible. A link changes how seriously people take your work.</p>
+    </div>
+    <div class="outcome-card">
+      <div class="outcome-icon">📬</div>
+      <h4>Applications Submitted</h4>
+      <p>15+ applications sent. Cold outreach started. Application tracker running. No waiting for perfect timing.</p>
+    </div>
+  </div>
+  <div style="margin-top:48px; text-align:center; font-family:'Playfair Display',serif; font-size:18px; color:var(--muted); font-style:italic; line-height:1.7;">
+    "The target is not mastery.<br>The target is credibility, execution ability, and visible proof of skill."
+  </div>
+  <div style="text-align:center; margin-top:24px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--faint); letter-spacing:1px;">
+    ML ACCELERATOR · JUNE 1 – JULY 25 · BUILD WHILE LEARNING
+  </div>
+</div>
+
+<script>
+  // ─── State ───────────────────────────────────────────────
+  const TOTAL_DAYS = 56;
+  const STORAGE_KEY = 'ml_planner_v2';
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { done: {}, currentWeek: 1 };
+    } catch { return { done: {}, currentWeek: 1 }; }
+  }
+
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  let state = loadState();
+
+  // ─── Progress ────────────────────────────────────────────
+  function updateProgress() {
+    const done = Object.values(state.done).filter(Boolean).length;
+    const pct = Math.round((done / TOTAL_DAYS) * 100);
+    document.getElementById('progressLabel').textContent = `${done} / ${TOTAL_DAYS} days complete`;
+    document.getElementById('progressPct').textContent = `${pct}%`;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('statDone').textContent = done;
+    document.getElementById('statLeft').textContent = TOTAL_DAYS - done;
+    // Count project milestones
+    const proj = (state.done['d28'] ? 1 : 0) + (state.done['d49'] ? 1 : 0);
+    document.getElementById('statProj').textContent = proj + ' / 2';
+    // Current week from progress
+    const w = done <= 7 ? 1 : done <= 14 ? 2 : done <= 21 ? 3 : done <= 28 ? 4 : done <= 35 ? 5 : done <= 42 ? 6 : done <= 49 ? 7 : 8;
+    document.getElementById('statWeek').textContent = 'W' + w;
+  }
+
+  // ─── Mark Done ───────────────────────────────────────────
+  function markDone(e, id) {
+    e.stopPropagation();
+    state.done[id] = !state.done[id];
+    const card = document.getElementById(id);
+    card.classList.toggle('done', !!state.done[id]);
+    saveState(state);
+    updateProgress();
+  }
+
+  // ─── Toggle Day ──────────────────────────────────────────
+  function toggleDay(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  // ─── Show Week ───────────────────────────────────────────
+  function showWeek(n) {
+    document.querySelectorAll('.week-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+
+    const section = document.getElementById('week' + n);
+    section.classList.add('active');
+    // Animate in
+    requestAnimationFrame(() => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(12px)';
+      requestAnimationFrame(() => {
+        section.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        section.style.opacity = '1';
+        section.style.transform = 'translateY(0)';
+      });
+    });
+
+    document.getElementById('btn' + n).classList.add('active');
+    state.currentWeek = n;
+    saveState(state);
+    document.querySelector('.layout').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ─── Init ────────────────────────────────────────────────
+  function init() {
+    // Restore done state to all cards
+    for (const [id, done] of Object.entries(state.done)) {
+      if (done) {
+        const card = document.getElementById(id);
+        if (card) card.classList.add('done');
+      }
+    }
+    // Restore week
+    if (state.currentWeek && state.currentWeek !== 1) {
+      document.getElementById('week1').classList.remove('active');
+      document.getElementById('btn1').classList.remove('active');
+      document.getElementById('week' + state.currentWeek).classList.add('active');
+      document.getElementById('btn' + state.currentWeek).classList.add('active');
+    }
+    // Trigger progress bar animation
+    updateProgress();
+    setTimeout(() => {
+      const done = Object.values(state.done).filter(Boolean).length;
+      const pct = Math.round((done / TOTAL_DAYS) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+    }, 800);
+  }
+
+  init();
+</script>
+</body>
+</html>
